@@ -35,6 +35,7 @@
     padding: 10px 10px 10px 20px;
     border-bottom: 1px solid #434242;
     border-top: 1px solid #565656;
+    transition: .3s;
 }
 
 .wrapper .side-nav ul li a {
@@ -45,6 +46,7 @@
 
 .wrapper .side-nav ul li:hover {
     background-color: #565656;
+    cursor: pointer;
 }
 
 .wrapper .btn-container {
@@ -60,6 +62,12 @@
     justify-content: center;
     align-items: center;
     border-radius: 35px;
+    transition: .3s;
+}
+
+.wrapper .btn-container .btn:hover {
+    background-color: rgb(217, 144, 8);
+    cursor: pointer;
 }
 
 .wrapper .btn-container .btn a {
