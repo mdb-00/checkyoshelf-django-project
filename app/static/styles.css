@@ -103,7 +103,11 @@
     border: none;
     outline: none;
     background: transparent;
-    color: white;
+    color: orange;
+}
+
+::placeholder {
+    color: rgb(186, 124, 8);
 }
 
 .wrapper .main-content .home-feed {
