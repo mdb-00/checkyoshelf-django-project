@@ -28,6 +28,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     genre = models.CharField(max_length=200)
     synopsis = models.TextField()
+    cover = models.CharField(max_length=200, null=True, blank=True)
     page_number = models.IntegerField()
     publish_date = models.DateField()
     rating = models.FloatField(
