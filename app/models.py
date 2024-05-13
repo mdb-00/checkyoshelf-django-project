@@ -24,9 +24,16 @@ class Author(models.Model):
 
 
 class Book(models.Model):
+    GENRES = (
+        ("Horror", "Horror"),
+        ("Fantasy", "Fantasy"),
+        ("Sci-Fi", "Sci-Fi"),
+        ("Thriller", "Thriller"),
+        ("Mystery", "Mystery"),
+    )
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    genre = models.CharField(max_length=200)
+    genre = models.CharField(max_length=200, choices=GENRES)
     synopsis = models.TextField()
     cover = models.CharField(max_length=200, null=True, blank=True)
     page_number = models.IntegerField()
