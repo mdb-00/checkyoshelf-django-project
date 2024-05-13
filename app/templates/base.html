@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CheckYoShelf</title>
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="side-nav">
+        <div class="profile-pic"><span></span></div>
+        <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">Profile</a></li>
+          <li><a href="">Bookshelves</a></li>
+        </ul>
+      </div>
+      <div class="main-content">{% block content %}{% endblock content %}</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.wrapper {
+    display: flex;
+    position: relative;
+}
+
+.wrapper .side-nav {
+    height: 100%; /* 100% Full-height */
+    width: 300px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    background-color: #111;
+  }
+
+.wrapper .side-nav .profile-pic {
+    padding: 20px;
+    text-align: center;
+}
+
+.wrapper .side-nav .profile-pic span {
+    height: 150px;
+    width: 250px;
+    background-color: white;
+    display: inline-block;
+    border-radius: 5%;
+}
+
+.wrapper .side-nav ul li {
+    padding: 10px 10px 10px 20px;
+    border-bottom: 1px solid #434242;
+    border-top: 1px solid #565656;
+}
+
+.wrapper .side-nav ul li a {
+    font-size: 25px;
+    color: white;
+    display: block;
+}
+
+.wrapper .side-nav ul li:hover {
+    background-color: #565656;
+}
+  
+  /* .wrapper .side-nav a {
+    padding: 8px 8px 8px 30px;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+  } */
+
+.wrapper .main-content {
+    width: 100%;
+    margin-left: 300px;
+    padding: 5px;
+}
+
+.wrapper .main-content .top-nav {
+   display: flex;
+   justify-content: center;
+}
+
+.wrapper .main-content .top-nav .search-bar {
+    width: 50%;
+    padding: 10px;
+    background-color: #111;
+    border-radius: 30px;
+}
+
+.wrapper .main-content .top-nav input[type=text] {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+}
