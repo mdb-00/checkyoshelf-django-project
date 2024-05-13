@@ -3,6 +3,7 @@
     padding: 0;
     list-style: none;
     text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .wrapper {
@@ -37,7 +38,7 @@
 }
 
 .wrapper .side-nav ul li a {
-    font-size: 25px;
+    font-size: 22px;
     color: white;
     display: block;
 }
@@ -45,14 +46,28 @@
 .wrapper .side-nav ul li:hover {
     background-color: #565656;
 }
+
+.wrapper .btn-container {
+    padding: 20px;
+}
   
-  /* .wrapper .side-nav a {
-    padding: 8px 8px 8px 30px;
-    font-size: 25px;
+.wrapper .btn-container .btn {
+    height: 40px;
+    width: 150px;
+    padding: 5px;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.wrapper .btn-container .btn a {
+    font-size: 20px;
+    font-weight: 500;
     color: white;
     display: block;
-    transition: 0.3s;
-  } */
+}
 
 .wrapper .main-content {
     width: 100%;

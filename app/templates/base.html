@@ -14,9 +14,16 @@
         <div class="profile-pic"><span></span></div>
         <ul>
           <li><a href="{% url "home" %}">Home</a></li>
+          <li><a href="">New Releases</a></li>
+          <li><a href="">Browse Books</a></li>
           <li><a href="{% url "profile" "mharris" %}">Profile</a></li>
           <li><a href="">Bookshelves</a></li>
         </ul>
+        <div class="btn-container">
+          <div class="btn">
+            <a href="">Update</a>
+          </div>
+        </div>
       </div>
       <div class="main-content">{% block content %}{% endblock content %}</div>
     </div>
