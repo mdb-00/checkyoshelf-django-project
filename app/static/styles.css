@@ -56,7 +56,7 @@
 .wrapper .btn-container .btn {
     height: 40px;
     width: 150px;
-    padding: 5px;
+    padding: 5px 50px;
     background-color: orange;
     display: flex;
     justify-content: center;
@@ -89,6 +89,7 @@
 }
 
 .wrapper .main-content .top-nav .search-bar {
+    position: fixed;
     width: 50%;
     padding: 10px;
     background-color: #111;
@@ -96,10 +97,15 @@
 }
 
 .wrapper .main-content .top-nav input[type=text] {
-    width: 100%;
+    width: 95%;
     font-size: 16px;
+    margin-left: 10px;
     border: none;
     outline: none;
     background: transparent;
     color: white;
+}
+
+.wrapper .main-content .home-feed {
+    padding: 100px 50px;
 }
