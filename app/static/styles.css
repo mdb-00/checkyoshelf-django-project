@@ -187,6 +187,7 @@
 .wrapper .main-content .profile-card .photos {
     position: relative;
     display: flex;
+    justify-content: center;
 }
 
 .wrapper .main-content .profile-card .photos .cover-photo {
