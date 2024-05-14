@@ -1,7 +1,16 @@
 {% extends "base.html" %} {% block title %}
 <title>{{ profile.name }}</title>
-{% endblock title %} {% block content %}
+{% endblock title %}
+{% block side-nav %}
+{% endblock side-nav %}
+{% block content %}
 <div class="profile">
+  <div class"profile-nav">
+    <div class="info">
+      <p>{{ profile.name }}</p>
+      <p>{{ result }}</p>
+    </div>
+  </div>
   <h1>{{ profile.name }}</h1>
 </div>
 {% endblock content %}
