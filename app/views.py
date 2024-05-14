@@ -9,16 +9,25 @@ def home_view(request):
 
 def profile_view(request, username):
     context = {}
-    user = User.objects.get(username=username)
-    profile = Profile.objects.get(user=user)
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+        bookshelf = Bookshelf.objects.get(profile=profile, name="Read")
+    except:
+        user = None
+        profile = None
+        bookshelf = None
+
     result = ""
-    bookshelf = Bookshelf.objects.get(profile=profile, name="Read")
     read_books = bookshelf.books.all()
     books_read = read_books.count()
+
     if books_read == 1:
         result = f"{books_read} book read"
     else:
         result = f"{books_read} books read"
+
     context["profile"] = profile
     context["result"] = result
     return render(request, "profile.html", context)

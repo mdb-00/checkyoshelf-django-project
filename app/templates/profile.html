@@ -1,16 +1,23 @@
 {% extends "base.html" %} {% block title %}
 <title>{{ profile.name }}</title>
-{% endblock title %}
-{% block side-nav %}
-{% endblock side-nav %}
-{% block content %}
-<div class="profile">
-  <div class"profile-nav">
-    <div class="info">
+{% endblock title %} {% block content %}
+<div class="profile-nav">
+  <div class="info">
+    <div class="name">
       <p>{{ profile.name }}</p>
+    </div>
+    <div class="books-read">
       <p>{{ result }}</p>
     </div>
   </div>
-  <h1>{{ profile.name }}</h1>
+  <div class="corner-search-bar">
+    <input type="text" placeholder="Search..." />
+  </div>
+</div>
+<div class="profile-card">
+  <div class="photos">
+    <span class="cover-photo"></span>
+    <span class="profile-photo"></span>
+  </div>
 </div>
 {% endblock content %}

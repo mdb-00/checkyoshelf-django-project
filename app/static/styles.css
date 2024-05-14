@@ -34,7 +34,6 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-    border-top: 1px solid #565656
 }
 
 .wrapper .side-nav .profile-section .user-info {
@@ -108,12 +107,12 @@
 .wrapper .main-content {
     width: 100%;
     margin-left: 300px;
-    padding: 5px;
 }
 
 .wrapper .main-content .top-nav {
    display: flex;
    justify-content: center;
+   margin-top: 5px;
 }
 
 .wrapper .main-content .top-nav .search-bar {
@@ -139,5 +138,71 @@
 }
 
 .wrapper .main-content .home-feed {
-    padding: 100px 50px;
+    padding: 120px 60px;
+}
+
+.wrapper .main-content .profile-nav {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #111;
+    border-bottom: 1px solid #434242;
+    padding: 20px;
+    gap: 400px;
+}
+
+.wrapper .main-content .profile-nav .info .name {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.wrapper .main-content .profile-nav .info .books-read {
+    color: gray;
+}
+
+.wrapper .main-content .profile-nav .corner-search-bar {
+    width: 20%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.wrapper .main-content .profile-nav .corner-search-bar input[type=text] {
+    width: 95%;
+    font-size: 16px;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: orange;
+}
+
+.wrapper .main-content .profile-card {
+    padding: 85px 60px;
+}
+
+.wrapper .main-content .profile-card .photos {
+    position: relative;
+    display: flex;
+}
+
+.wrapper .main-content .profile-card .photos .cover-photo {
+    position: relative;
+    height: 350px;
+    width: 800px;
+    background-color: #111;
+    border-radius: 5px;
+}
+
+.wrapper .main-content .profile-card .photos .profile-photo {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    background-color: gray;
+    border-radius: 100px;
+    margin-top: 300px;
+    margin-left: 30px;
 }
