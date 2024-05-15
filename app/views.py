@@ -23,6 +23,14 @@ def profile_view(request, username):
     read_books = bookshelf.books.all()
     books_read = read_books.count()
 
+    follower_count = 0
+    following_count = 0
+
+    for follower in profile.followers:
+        follower_count += 1
+    for follower in profile.following:
+        following_count += 1
+
     if books_read == 1:
         result = f"{books_read} book read"
     else:
@@ -30,4 +38,55 @@ def profile_view(request, username):
 
     context["profile"] = profile
     context["result"] = result
+    context["follower_count"] = follower_count
+    context["following_count"] = following_count
     return render(request, "profile.html", context)
+
+
+def bookshelf_view(request, username):
+    context = {}
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+    bookshelves = Bookshelf.objects.filter(profile=profile)
+    bookshelves_count = {}
+
+    for shelf in bookshelves:
+        shelf_books = shelf.books.all()
+        bookshelves_count[shelf] = shelf_books.count()
+
+    # bookshelves_count = {
+    #     key: value for key, value in sorted(unsorted_bookshelves.items())
+    # }
+
+    # bookshelves_count = {
+    #     k: v for k, v in sorted(unsorted_bookshelves.items(), key=lambda item: item[0])
+    # }
+
+    bookshelf_all = Bookshelf.objects.get(name="All")
+    all_books = bookshelf_all.books.all()
+    context["profile"] = profile
+    context["bookshelves_count"] = bookshelves_count
+    context["all_books"] = all_books
+    return render(request, "my_books.html", context)
+
+
+def books_view(request, username, shelf):
+    context = {}
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    bookshelf = Bookshelf.objects.get(name=shelf)
+    books = bookshelf.books.all()
+    context["profile"] = profile
+    context["books"] = books
+    return render(request, "books.html", context)

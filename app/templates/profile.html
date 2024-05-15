@@ -19,5 +19,31 @@
     <span class="cover-photo"></span>
     <span class="profile-photo"></span>
   </div>
+  <div class="details-container">
+    <ul>
+      <li>
+        <div class="user-details">
+          <h1 class="name">{{ profile.name }}</h1>
+          <p class="username">@{{ profile.user }}</p>
+        </div>
+      </li>
+      <li>
+        <div class="bio">
+          <p>{{ profile.bio }}</p>
+        </div>
+      </li>
+      <li>
+        <div class="followers">
+          <p>{{ follower_count }} followers</p>
+          <p>{{ following_count }} following</p>
+        </div>
+      </li>
+      <li>
+        <div class="profile-books-btn">
+          <a href="{% url "bookshelves" profile.user %}">View Books</a>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 {% endblock content %}

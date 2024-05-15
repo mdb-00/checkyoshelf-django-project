@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block title %}
+<title>{{ profile.name }}'s books</title>
+{% endblock title %} {% block content %}
+<div class="bookshelf-nav">
+  <ul>
+    {% for shelf, count in bookshelves_count.items %}
+    <li><a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }})</li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="book-list">{% block books %}{% endblock books %}</div>
+</ul>
+{% endblock content %}

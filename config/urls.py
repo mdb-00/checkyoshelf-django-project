@@ -23,4 +23,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_view, name="home"),
     path("<str:username>/", profile_view, name="profile"),
+    path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
+    path("<str:username>/<str:shelf>/books", books_view, name="books"),
 ]

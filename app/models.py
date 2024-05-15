@@ -32,6 +32,7 @@ class Book(models.Model):
         ("Mystery", "Mystery"),
     )
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    profile = models.ManyToManyField(Profile, blank=True)
     title = models.CharField(max_length=200)
     genre = models.CharField(max_length=200, choices=GENRES)
     synopsis = models.TextField()
