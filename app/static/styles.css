@@ -250,7 +250,16 @@
     background-color: orange;
 }
 
+.wrapper .main-content .bookshelf-nav a {
+    color: #111;
+}
+
 .wrapper .main-content .book-list {
+    width: 100%;
+    margin-left: 200px;
+}
+
+.wrapper .main-content .create_bookshelf {
     width: 100%;
     margin-left: 200px;
 }

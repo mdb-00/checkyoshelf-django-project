@@ -2,6 +2,7 @@
 <title>{{ profile.name }}'s books</title>
 {% endblock title %} {% block content %}
 <div class="bookshelf-nav">
+  <a href="{% url "create_bookshelf" profile.user %}">Add bookshelf</a>
   <ul>
     {% for shelf, count in bookshelves_count.items %}
     <li><a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }})</li>
@@ -9,5 +10,6 @@
   </ul>
 </div>
 <div class="book-list">{% block books %}{% endblock books %}</div>
+<div class="create_bookshelf">{% block create_bookshelf %}{% endblock create_bookshelf %}</div>
 </ul>
 {% endblock content %}

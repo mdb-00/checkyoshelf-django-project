@@ -1,0 +1,8 @@
+{% extends "my_books.html" %}
+{% block create_bookshelf %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" name="Submit">
+</form>
+{% endblock create_bookshelf %}

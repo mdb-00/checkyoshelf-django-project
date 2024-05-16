@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
+from .forms import *
 
 
 # Create your views here.
@@ -67,15 +68,12 @@ def bookshelf_view(request, username):
     #     k: v for k, v in sorted(unsorted_bookshelves.items(), key=lambda item: item[0])
     # }
 
-    bookshelf_all = Bookshelf.objects.get(name="All")
-    all_books = bookshelf_all.books.all()
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
-    context["all_books"] = all_books
     return render(request, "my_books.html", context)
 
 
-def books_view(request, username, shelf):
+def books_view(request, username, bookshelf):
     context = {}
 
     try:
@@ -85,8 +83,38 @@ def books_view(request, username, shelf):
         user = None
         profile = None
 
-    bookshelf = Bookshelf.objects.get(name=shelf)
-    books = bookshelf.books.all()
+    bookshelves = Bookshelf.objects.filter(profile=profile)
+    bookshelves_count = {}
+
+    for shelf in bookshelves:
+        shelf_books = shelf.books.all()
+        bookshelves_count[shelf] = shelf_books.count()
+
+    selected_bookshelf = Bookshelf.objects.get(name=bookshelf)
+    books = selected_bookshelf.books.all()
     context["profile"] = profile
+    context["bookshelves_count"] = bookshelves_count
     context["books"] = books
     return render(request, "books.html", context)
+ 
+def create_bookshelf(request, username):
+    context = {}
+    
+    form = BookshelfForm()
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    if request.method == "POST":
+        form = BookshelfForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/{username}/bookshelves")
+
+    context["profile"] = profile
+    context["form"] = form
+    return render(request, "bookshelf_form.html", context)
