@@ -27,11 +27,6 @@ def profile_view(request, username):
     follower_count = len(profile.followers)
     following_count = len(profile.following)
 
-    # for follower in profile.followers:
-    #     follower_count += 1
-    # for follower in profile.following:
-    #     following_count += 1
-
     if books_read == 1:
         result = f"{books_read} book read"
     else:
