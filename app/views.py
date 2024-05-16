@@ -70,7 +70,7 @@ def bookshelf_view(request, username):
 
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
-    return render(request, "my_books.html", context)
+    return render(request, "bookshelves.html", context)
 
 
 def books_view(request, username, bookshelf):
