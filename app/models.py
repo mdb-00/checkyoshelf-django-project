@@ -38,11 +38,8 @@ class Book(models.Model):
     cover = models.CharField(max_length=200, null=True, blank=True)
     page_number = models.IntegerField()
     publish_date = models.DateField()
-    rating = models.FloatField(
-        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
-        null=True,
-        blank=True,
-    )
+    reviewers = []
+    average_rating = 0.0
 
     def __str__(self):
         return self.title
@@ -65,7 +62,7 @@ class Review(models.Model):
     text = models.TextField()
     date = models.DateField()
     rating = models.FloatField(
-        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], default=0
     )
     likes = 0
 

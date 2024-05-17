@@ -87,14 +87,28 @@ def books_view(request, username, bookshelf):
 
     selected_bookshelf = Bookshelf.objects.get(name=bookshelf)
     books = selected_bookshelf.books.all()
+    books_ratings = {}
+    has_rating = True
+
+    for book in books:
+        try:
+            review = Review.objects.get(book=book)
+            books_ratings[book.title] = book.average_rating, review.rating
+        except:
+            has_rating = False
+            review = None
+            books_ratings[book.title] = book.average_rating
+
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
-    context["books"] = books
+    context["books_ratings"] = books_ratings
+    context["has_rating"] = has_rating
     return render(request, "books.html", context)
- 
+
+
 def create_bookshelf(request, username):
     context = {}
-    
+
     form = BookshelfForm()
 
     try:
@@ -113,3 +127,26 @@ def create_bookshelf(request, username):
     context["profile"] = profile
     context["form"] = form
     return render(request, "bookshelf_form.html", context)
+
+
+def review_book(request, username, book):
+    context = {}
+
+    form = ReviewForm()
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/{username}/bookshelves")
+
+    context["profile"] = profile
+    context["form"] = form
+    return render(request, "review_form.html", context)

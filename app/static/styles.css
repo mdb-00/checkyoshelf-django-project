@@ -259,7 +259,12 @@
     margin-left: 200px;
 }
 
-.wrapper .main-content .create_bookshelf {
+.wrapper .main-content .create-bookshelf {
+    width: 100%;
+    margin-left: 200px;
+}
+
+.wrapper .main-content .review-book {
     width: 100%;
     margin-left: 200px;
 }
