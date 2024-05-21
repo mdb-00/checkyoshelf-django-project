@@ -30,6 +30,7 @@ urlpatterns = [
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),
     path("<str:username>/create-bookshelf/", create_bookshelf, name="create_bookshelf"),
     path("<str:username>/review-book/<str:book>/", review_book, name="review_book"),
+    path("<str:username>/make-post/", make_post, name="make_post"),
     path(
         "<str:username>/<str:shelf>/delete/", delete_bookshelf, name="delete_bookshelf"
     ),

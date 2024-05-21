@@ -54,6 +54,7 @@ def profile_view(request, username):
         # books_read = read_books.count()
         follower_count = len(profile.followers)
         following_count = len(profile.following)
+        posts = Post.objects.filter(profile=profile)
     except:
         user = None
         profile = None
@@ -76,6 +77,7 @@ def profile_view(request, username):
     context["result"] = result
     context["follower_count"] = follower_count
     context["following_count"] = following_count
+    context["posts"] = posts
     return render(request, "profile.html", context)
 
 
@@ -208,6 +210,34 @@ def review_book(request, username, book):
     context["profile"] = profile
     context["form"] = form
     return render(request, "review_form.html", context)
+
+
+def make_post(request, username):
+    context = {}
+
+    form = PostForm()
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/{username}")
+
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
+    context["profile"] = profile
+    context["form"] = form
+    return render(request, "post_form.html", context)
 
 
 def delete_bookshelf(request, username, shelf):

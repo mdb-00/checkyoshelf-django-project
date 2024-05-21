@@ -46,4 +46,9 @@
     </ul>
   </div>
 </div>
+<div class="profile-content">
+  {% for post in posts %}
+  <h3>{{ post }}</h3>
+  {% endfor %}
+</div>
 {% endblock content %}

@@ -21,3 +21,9 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = "__all__"
+
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = "__all__"
