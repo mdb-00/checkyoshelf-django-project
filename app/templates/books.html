@@ -1,17 +1,9 @@
 {% extends "bookshelves.html" %} {% block books %}
 <div>
   <ul>
-    {% if has_rating == True %}
-      {% for book, ratings in books_ratings.items %}
-        {% for average_rating in ratings  %}{% endfor %}
-          <li>{{ book }} <a href="{% url "review_book" profile.user book %}">Rate</a> Overall: {{ average_rating }} Personal: {{ my_rating }}</li>
-      {% endfor %}
-    {% else %}
-      {% for book, rating in books_ratings.items %}
-        <li>{{ book }} <a href="{% url "review_book" profile.user book %}">Rate</a> Overall: {{ rating }}</li>
-      {% endfor %}
-    {% endif %}
-    
+    {% for book, ratings in books_ratings.items %}
+      <li>{{ book }} <a href="{% url "review_book" profile.user book %}">Rate</a> {{ ratings }}</li>
+    {% endfor %}
   </ul>
 </div>
 {% endblock books %}

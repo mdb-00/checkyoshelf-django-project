@@ -1,5 +1,5 @@
 {% extends "bookshelves.html" %} {% block review_book %}
-<form action="" metod="POST">
+<form action="" method="POST">
   {% csrf_token %} {{ form }}
   <input type="submit" name="Submit" />
 </form>

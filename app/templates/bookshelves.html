@@ -5,7 +5,10 @@
   <a href="{% url "create_bookshelf" profile.user %}">Add bookshelf</a>
   <ul>
     {% for shelf, count in bookshelves_count.items %}
-    <li><a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }})</li>
+    <li>
+      <a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }}) 
+      <a href="{% url "delete_bookshelf" profile.user shelf %}">Delete</a>
+    </li>
     {% endfor %}
   </ul>
 </div>

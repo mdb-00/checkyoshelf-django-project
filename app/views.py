@@ -1,37 +1,77 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import *
 
 
 # Create your views here.
+def register_view(request):
+    form = CreateUserForm
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+
+    context = {"form": form}
+    return render(request, "register.html", context)
+
+
+def login_view(request):
+    context = {}
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+    return render(request, "login.html", context)
+
+
 def home_view(request):
-    return render(request, "home.html")
+    context = {}
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
+    return render(request, "home.html", context)
 
 
 def profile_view(request, username):
     context = {}
 
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
     try:
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
-        bookshelf = Bookshelf.objects.get(profile=profile, name="Read")
+        # bookshelf = Bookshelf.objects.filter(profile=profile, name="Read")
+        # read_books = bookshelf.books.all()
+        # books_read = read_books.count()
+        follower_count = len(profile.followers)
+        following_count = len(profile.following)
     except:
         user = None
         profile = None
         bookshelf = None
+        read_books = None
+        books_read = 0
+        follower_count = 0
+        following_count = 0
 
     result = ""
-    read_books = bookshelf.books.all()
-    books_read = read_books.count()
 
-    follower_count = len(profile.followers)
-    following_count = len(profile.following)
+    # if books_read == 1:
+    #     result = f"{books_read} book read"
+    # else:
+    #     result = f"{books_read} books read"
 
-    if books_read == 1:
-        result = f"{books_read} book read"
-    else:
-        result = f"{books_read} books read"
-
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
     context["profile"] = profile
     context["result"] = result
     context["follower_count"] = follower_count
@@ -42,12 +82,16 @@ def profile_view(request, username):
 def bookshelf_view(request, username):
     context = {}
 
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
     try:
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
     except:
         user = None
         profile = None
+
     bookshelves = Bookshelf.objects.filter(profile=profile)
     bookshelves_count = {}
 
@@ -63,6 +107,8 @@ def bookshelf_view(request, username):
     #     k: v for k, v in sorted(unsorted_bookshelves.items(), key=lambda item: item[0])
     # }
 
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
     return render(request, "bookshelves.html", context)
@@ -70,6 +116,9 @@ def bookshelf_view(request, username):
 
 def books_view(request, username, bookshelf):
     context = {}
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
 
     try:
         user = User.objects.get(username=username)
@@ -88,21 +137,20 @@ def books_view(request, username, bookshelf):
     selected_bookshelf = Bookshelf.objects.get(name=bookshelf)
     books = selected_bookshelf.books.all()
     books_ratings = {}
-    has_rating = True
 
     for book in books:
         try:
             review = Review.objects.get(book=book)
-            books_ratings[book.title] = book.average_rating, review.rating
+            books_ratings[book] = [book.average_rating, review.rating]
         except:
-            has_rating = False
             review = None
-            books_ratings[book.title] = book.average_rating
+            books_ratings[book] = [book.average_rating, "-"]
 
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
     context["books_ratings"] = books_ratings
-    context["has_rating"] = has_rating
     return render(request, "books.html", context)
 
 
@@ -110,6 +158,9 @@ def create_bookshelf(request, username):
     context = {}
 
     form = BookshelfForm()
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
 
     try:
         user = User.objects.get(username=username)
@@ -124,6 +175,8 @@ def create_bookshelf(request, username):
             form.save()
             return redirect(f"/{username}/bookshelves")
 
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
     context["profile"] = profile
     context["form"] = form
     return render(request, "bookshelf_form.html", context)
@@ -133,6 +186,9 @@ def review_book(request, username, book):
     context = {}
 
     form = ReviewForm()
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
 
     try:
         user = User.objects.get(username=username)
@@ -147,6 +203,14 @@ def review_book(request, username, book):
             form.save()
             return redirect(f"/{username}/bookshelves")
 
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
     context["profile"] = profile
     context["form"] = form
     return render(request, "review_form.html", context)
+
+
+def delete_bookshelf(request, username, shelf):
+    bookshelf = Bookshelf.objects.get(name=shelf)
+    bookshelf.delete()
+    return redirect(f"/{username}/bookshelves")

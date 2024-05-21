@@ -21,10 +21,16 @@ from app.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # path("", root, name="root"),
     path("", home_view, name="home"),
+    path("register/", register_view, name="register"),
+    path("login/", login_view, name="login"),
     path("<str:username>/", profile_view, name="profile"),
     path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),
     path("<str:username>/create-bookshelf/", create_bookshelf, name="create_bookshelf"),
     path("<str:username>/review-book/<str:book>/", review_book, name="review_book"),
+    path(
+        "<str:username>/<str:shelf>/delete/", delete_bookshelf, name="delete_bookshelf"
+    ),
 ]
