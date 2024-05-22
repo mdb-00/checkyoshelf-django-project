@@ -33,3 +33,15 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
+
+
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = "__all__"
+
+
+class BookForm(ModelForm):
+    class Meta:
+        model = Book
+        fields = "__all__"

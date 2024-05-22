@@ -3,54 +3,49 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
+from .decorators import *
 
 
 # Create your views here.
+@unauthenticated_user
 def register_view(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-    else:
-        form = CreateUserForm
+    form = CreateUserForm
 
-        if request.method == "POST":
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect("create_profile")
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("create_profile")
 
-        context = {"form": form}
-        return render(request, "register.html", context)
+    context = {"form": form}
+    return render(request, "register.html", context)
 
 
+@unauthenticated_user
 def create_profile(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-    else:
-        form = CreateProfileForm
+    form = CreateProfileForm
 
-        if request.method == "POST":
-            form = CreateProfileForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect("login")
+    if request.method == "POST":
+        form = CreateProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
 
-        context = {"form": form}
-        return render(request, "profile_form.html", context)
+    context = {"form": form}
+    return render(request, "profile_form.html", context)
 
 
+@unauthenticated_user
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-    else:
-        context = {}
-        if request.method == "POST":
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("home")
-        return render(request, "login.html", context)
+    context = {}
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+    return render(request, "login.html", context)
 
 
 def logout_user(request):
@@ -280,3 +275,25 @@ def delete_bookshelf(request, username, shelf):
     bookshelf = Bookshelf.objects.get(name=shelf)
     bookshelf.delete()
     return redirect(f"/{username}/bookshelves")
+
+
+def add_author(request):
+    form = AuthorForm
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    if request.method == "POST":
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+def add_books(request): ...
