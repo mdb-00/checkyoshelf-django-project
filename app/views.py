@@ -277,7 +277,7 @@ def delete_bookshelf(request, username, shelf):
     return redirect(f"/{username}/bookshelves")
 
 
-def add_author(request):
+def add_author(request, username):
     form = AuthorForm
 
     current_user = request.user
