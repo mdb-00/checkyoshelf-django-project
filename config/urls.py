@@ -24,6 +24,7 @@ urlpatterns = [
     # path("", root, name="root"),
     path("", home_view, name="home"),
     path("register/", register_view, name="register"),
+    path("create-profile/", create_profile, name="create_profile"),
     path("login/", login_view, name="login"),
     path("logout/", logout_user, name="logout"),
     path("<str:username>/", profile_view, name="profile"),

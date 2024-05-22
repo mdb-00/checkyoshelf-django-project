@@ -16,10 +16,26 @@ def register_view(request):
             form = CreateUserForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect("login")
+                return redirect("create_profile")
 
         context = {"form": form}
         return render(request, "register.html", context)
+
+
+def create_profile(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    else:
+        form = CreateProfileForm
+
+        if request.method == "POST":
+            form = CreateProfileForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("login")
+
+        context = {"form": form}
+        return render(request, "profile_form.html", context)
 
 
 def login_view(request):

@@ -11,6 +11,12 @@ class CreateUserForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 
+class CreateProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+
 class BookshelfForm(ModelForm):
     class Meta:
         model = Bookshelf
