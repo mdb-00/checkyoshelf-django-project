@@ -1,35 +1,48 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 
 
 # Create your views here.
 def register_view(request):
-    form = CreateUserForm
+    if request.user.is_authenticated:
+        return redirect("home")
+    else:
+        form = CreateUserForm
 
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("login")
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("login")
 
-    context = {"form": form}
-    return render(request, "register.html", context)
+        context = {"form": form}
+        return render(request, "register.html", context)
 
 
 def login_view(request):
-    context = {}
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("home")
-    return render(request, "login.html", context)
+    if request.user.is_authenticated:
+        return redirect("home")
+    else:
+        context = {}
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("home")
+        return render(request, "login.html", context)
 
 
+def logout_user(request):
+    logout(request)
+    return redirect("login")
+
+
+@login_required(login_url="login")
 def home_view(request):
     context = {}
     current_user = request.user
@@ -40,6 +53,7 @@ def home_view(request):
     return render(request, "home.html", context)
 
 
+@login_required(login_url="login")
 def profile_view(request, username):
     context = {}
 
@@ -81,6 +95,7 @@ def profile_view(request, username):
     return render(request, "profile.html", context)
 
 
+@login_required(login_url="login")
 def bookshelf_view(request, username):
     context = {}
 
@@ -116,6 +131,7 @@ def bookshelf_view(request, username):
     return render(request, "bookshelves.html", context)
 
 
+@login_required(login_url="login")
 def books_view(request, username, bookshelf):
     context = {}
 
@@ -156,6 +172,7 @@ def books_view(request, username, bookshelf):
     return render(request, "books.html", context)
 
 
+@login_required(login_url="login")
 def create_bookshelf(request, username):
     context = {}
 
@@ -184,6 +201,7 @@ def create_bookshelf(request, username):
     return render(request, "bookshelf_form.html", context)
 
 
+@login_required(login_url="login")
 def review_book(request, username, book):
     context = {}
 
@@ -212,6 +230,7 @@ def review_book(request, username, book):
     return render(request, "review_form.html", context)
 
 
+@login_required(login_url="login")
 def make_post(request, username):
     context = {}
 
@@ -240,6 +259,7 @@ def make_post(request, username):
     return render(request, "post_form.html", context)
 
 
+@login_required(login_url="login")
 def delete_bookshelf(request, username, shelf):
     bookshelf = Bookshelf.objects.get(name=shelf)
     bookshelf.delete()

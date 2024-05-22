@@ -50,6 +50,16 @@
     color: gray;
 }
 
+.wrapper .side-nav .profile-section .user-info a {
+    color: white;
+    transition: .3s;
+}
+
+.wrapper .side-nav .profile-section .user-info a:hover {
+    color: orange;
+    text-decoration: underline;
+}
+
 .wrapper .side-nav .profile-section span {
     height: 75px;
     width: 75px;
@@ -182,7 +192,6 @@
 
 .wrapper .main-content .profile-card {
     padding: 85px 60px;
-    border-bottom: 2px solid black;
 }
 
 .wrapper .main-content .profile-card .photos {
@@ -240,6 +249,26 @@
 
 .wrapper .main-content .profile-card .details-container a {
     color: orange;
+    font-weight: bold;
+}
+
+.wrapper .main-content .profile-content {
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper .main-content .profile-content .post {
+    padding: 40px;
+    text-align: center;
+    border: 1px solid #111;
+    width: 1000px;
+}
+
+.wrapper .main-content .profile-content .post .profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
     font-weight: bold;
 }
 

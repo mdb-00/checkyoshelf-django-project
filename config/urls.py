@@ -25,6 +25,7 @@ urlpatterns = [
     path("", home_view, name="home"),
     path("register/", register_view, name="register"),
     path("login/", login_view, name="login"),
+    path("logout/", logout_user, name="logout"),
     path("<str:username>/", profile_view, name="profile"),
     path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),
