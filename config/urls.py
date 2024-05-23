@@ -25,6 +25,7 @@ urlpatterns = [
     path("", home_view, name="home"),
     path("register/", register_view, name="register"),
     path("create-profile/", create_profile, name="create_profile"),
+    path("edit-profile/", edit_profile, name="edit_profile"),
     path("login/", login_view, name="login"),
     path("logout/", logout_user, name="logout"),
     path("add-author/", add_author, name="add_author"),
@@ -33,7 +34,9 @@ urlpatterns = [
     path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),
     path("<str:username>/create-bookshelf/", create_bookshelf, name="create_bookshelf"),
-    path("<str:username>/<str:shelf>/delete/", delete_bookshelf, name="delete_bookshelf"),
+    path(
+        "<str:username>/<str:shelf>/delete/", delete_bookshelf, name="delete_bookshelf"
+    ),
     path("<str:username>/review-book/<str:book>/", review_book, name="review_book"),
     path("<str:username>/make-post/", make_post, name="make_post"),
 ]

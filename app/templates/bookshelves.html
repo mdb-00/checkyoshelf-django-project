@@ -2,7 +2,12 @@
 <title>{{ profile.name }}'s books</title>
 {% endblock title %} {% block content %}
 <div class="bookshelf-nav">
-  <a href="{% url "create_bookshelf" profile.user %}">Add bookshelf</a>
+  {% if user == current_user %}
+  <div class="shelf-manager">
+    <a href="{% url "create_bookshelf" profile.user %}">Add bookshelf</a>
+    {% comment %} <a href="">Manage bookshelves</a> {% endcomment %}
+  </div>
+  {% endif %}
   <ul>
     {% for shelf, count in bookshelves_count.items %}
     <li>

@@ -138,6 +138,7 @@ def bookshelf_view(request, username):
 
     context["current_user"] = current_user
     context["my_profile"] = my_profile
+    context["user"] = user
     context["profile"] = profile
     context["bookshelves_count"] = bookshelves_count
     return render(request, "bookshelves.html", context)
@@ -302,3 +303,19 @@ def add_books(request):
     context = {"form": form}
 
     return render(request, "book_form.html", context)
+
+
+def edit_profile(request):
+    current_user = request.user
+    profile = Profile.objects.get(user=current_user)
+
+    form = CreateProfileForm(instance=profile)
+
+    if request.method == "POST":
+        form = CreateProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/{current_user}")
+
+    context = {"form": form}
+    return render(request, "profile_form.html", context)

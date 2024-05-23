@@ -248,7 +248,7 @@
     cursor: pointer;
 }
 
-.wrapper .main-content .profile-card .details-container a {
+.wrapper .main-content .profile-card .details-container .profile-books-btn a {
     color: orange;
     font-weight: bold;
 }
