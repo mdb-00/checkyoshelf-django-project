@@ -225,7 +225,7 @@
 }
 
 .wrapper .main-content .profile-card .details-container ul li {
-    padding: 8px;
+    padding: 4px;
     display: flex;
     justify-content: center;
 }
@@ -253,29 +253,7 @@
     font-weight: bold;
 }
 
-.wrapper .main-content .profile-card .follow-btn {
-    height: 20px;
-    width: 30px;
-    padding: 10px 30px;
-    background-color: orange;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35px;
-    transition: .3s;
-}
-
-.wrapper .main-content .profile-card .follow-btn:hover {
-    background-color: rgb(217, 144, 8);
-    cursor: pointer;
-}
-
-.wrapper .main-content .profile-card .follow-btn a {
-    color: white;
-    font-weight: 500;
-}
-
-.wrapper .main-content .profile-card .edit-btn {
+.wrapper .main-content .profile-card .profile-btn {
     height: 20px;
     width: 80px;
     padding: 10px 30px;
@@ -287,12 +265,12 @@
     transition: .3s;
 }
 
-.wrapper .main-content .profile-card .edit-btn:hover {
+.wrapper .main-content .profile-card .profile-btn:hover {
     background-color: rgb(217, 144, 8);
     cursor: pointer;
 }
 
-.wrapper .main-content .profile-card .edit-btn a {
+.wrapper .main-content .profile-card .profile-btn a {
     color: white;
     font-weight: 500;
 }

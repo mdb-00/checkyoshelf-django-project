@@ -22,15 +22,13 @@
   <div class="details-container">
     <ul>
       <li>
-        {% if current_user != user %}
-        <div class="follow-btn">
+        <div class="profile-btn">
+          {% if current_user != user %}
           <a href="">Follow</a>
-        </div>
-        {% else %}
-        <div class="edit-btn">
+          {% else %}
           <a href="">Edit Profile</a>
+          {% endif %}
         </div>
-        {% endif %}
       </li>
       <li>
         <div class="user-details">
