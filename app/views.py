@@ -277,23 +277,27 @@ def delete_bookshelf(request, username, shelf):
     return redirect(f"/{username}/bookshelves")
 
 
-def add_author(request, username):
+def add_author(request):
     form = AuthorForm
-
-    current_user = request.user
-    my_profile = Profile.objects.get(user=current_user)
-
-    try:
-        user = User.objects.get(username=username)
-        profile = Profile.objects.get(user=user)
-    except:
-        user = None
-        profile = None
 
     if request.method == "POST":
         form = AuthorForm(request.POST)
         if form.is_valid():
             form.save()
 
+    context = {"form": form}
 
-def add_books(request): ...
+    return render(request, "author_form.html", context)
+
+
+def add_books(request):
+    form = BookForm
+
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    context = {"form": form}
+
+    return render(request, "book_form.html", context)
