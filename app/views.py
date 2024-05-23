@@ -98,6 +98,7 @@ def profile_view(request, username):
 
     context["current_user"] = current_user
     context["my_profile"] = my_profile
+    context["user"] = user
     context["profile"] = profile
     context["result"] = result
     context["follower_count"] = follower_count
