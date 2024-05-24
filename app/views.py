@@ -7,6 +7,19 @@ from .decorators import *
 
 
 # Create your views here.
+def default_bookshelves():
+    shelf_names = ["All", "Read", "Currently Reading", "Want to Read"]
+    profiles = Profile.objects.all()
+    bookshelves = []
+
+    for profile in profiles:
+        for name in shelf_names:
+            shelf_exists = Bookshelf.objects.filter(profile=profile, name=name).exists()
+            if shelf_exists == False:
+                bookshelf = Bookshelf.objects.create(profile=profile, name=name)
+                bookshelves.append(bookshelf)
+
+
 @unauthenticated_user
 def register_view(request):
     form = CreateUserForm
@@ -56,6 +69,7 @@ def logout_user(request):
 @login_required(login_url="login")
 def home_view(request):
     context = {}
+    default_bookshelves()
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
 
@@ -74,15 +88,16 @@ def profile_view(request, username):
     try:
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
-        # bookshelf = Bookshelf.objects.filter(profile=profile, name="Read")
-        # read_books = bookshelf.books.all()
-        # books_read = read_books.count()
+        posts = Post.objects.filter(profile=profile)
+        bookshelf = Bookshelf.objects.get(profile=profile, name="Read")
+        read_books = bookshelf.books.all()
+        books_read = read_books.count()
         follower_count = len(profile.followers)
         following_count = len(profile.following)
-        posts = Post.objects.filter(profile=profile)
     except:
         user = None
         profile = None
+        posts = None
         bookshelf = None
         read_books = None
         books_read = 0
@@ -91,10 +106,10 @@ def profile_view(request, username):
 
     result = ""
 
-    # if books_read == 1:
-    #     result = f"{books_read} book read"
-    # else:
-    #     result = f"{books_read} books read"
+    if books_read == 1:
+        result = f"{books_read} book read"
+    else:
+        result = f"{books_read} books read"
 
     context["current_user"] = current_user
     context["my_profile"] = my_profile

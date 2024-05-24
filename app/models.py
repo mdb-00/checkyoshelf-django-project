@@ -46,10 +46,11 @@ class Book(models.Model):
 
 
 class Bookshelf(models.Model):
-    profile = models.ManyToManyField(Profile, related_name="profile", blank=True)
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="profile", null=True
+    )
     books = models.ManyToManyField(Book, blank=True, related_name="books")
     name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
