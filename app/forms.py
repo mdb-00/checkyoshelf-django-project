@@ -28,9 +28,9 @@ class BookshelfForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("profile", None)
         super(BookshelfForm, self).__init__(*args, **kwargs)
-        my_profile = Profile.objects.filter(user=user)
+        my_profile = Profile.objects.get(user=user)
         print("checking if this prints")
-        self.fields["profile"].queryset = my_profile
+        self.fields["profile"].initial = my_profile
 
 
 class ReviewForm(ModelForm):

@@ -187,11 +187,15 @@ def books_view(request, username, bookshelf):
 
 @login_required(login_url="login")
 def create_bookshelf(request, username):
-    form = BookshelfForm(profile=request.user.profile)
     context = {}
 
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
+
+    form = BookshelfForm(profile=current_user)
+
+    # field = form.fields['profile']
+    # field.widget = field.hidden_widget()
 
     try:
         user = User.objects.get(username=username)
