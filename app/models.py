@@ -22,18 +22,18 @@ class Author(models.Model):
         return self.name
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
 class Book(models.Model):
-    GENRES = (
-        ("Horror", "Horror"),
-        ("Fantasy", "Fantasy"),
-        ("Sci-Fi", "Sci-Fi"),
-        ("Thriller", "Thriller"),
-        ("Mystery", "Mystery"),
-    )
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     profile = models.ManyToManyField(Profile, blank=True)
     title = models.CharField(max_length=200)
-    genre = models.CharField(max_length=200, choices=GENRES)
+    genre = models.ManyToManyField(Genre)
     synopsis = models.TextField()
     cover = models.CharField(max_length=200, null=True, blank=True)
     page_number = models.IntegerField()

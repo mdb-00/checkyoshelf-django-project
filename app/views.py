@@ -69,6 +69,7 @@ def logout_user(request):
 @login_required(login_url="login")
 def home_view(request):
     context = {}
+
     default_bookshelves()
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
@@ -76,6 +77,25 @@ def home_view(request):
     context["current_user"] = current_user
     context["my_profile"] = my_profile
     return render(request, "home.html", context)
+
+
+@login_required(login_url="login")
+def explore_view(request):
+    context = {}
+
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+    genres = Genre.objects.all()
+    books_by_genres = {}
+
+    for genre in genres:
+        books = Book.objects.filter(genre=genre)
+        books_by_genres[genre] = books
+
+    context["current_user"] = current_user
+    context["my_profile"] = my_profile
+    context["books_by_genres"] = books_by_genres
+    return render(request, "explore.html", context)
 
 
 @login_required(login_url="login")

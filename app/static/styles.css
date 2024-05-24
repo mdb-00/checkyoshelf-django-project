@@ -151,6 +151,29 @@
     padding: 120px 60px;
 }
 
+.wrapper .main-content .explore-books {
+    padding: 120px 60px;
+}
+
+.wrapper .main-content .explore-books ul li {
+    margin-bottom: 40px;
+}
+
+.wrapper .main-content .explore-books .genre-link {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.wrapper .main-content .explore-books .book-covers {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.wrapper .main-content .explore-books img {
+    width: 200px;
+    height: 300px;
+}
+
 .wrapper .main-content .profile-nav {
     position: fixed;
     display: flex;

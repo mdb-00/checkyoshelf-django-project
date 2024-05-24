@@ -30,6 +30,7 @@ urlpatterns = [
     path("logout/", logout_user, name="logout"),
     path("add-author/", add_author, name="add_author"),
     path("add-book/", add_books, name="add_book"),
+    path("explore/", explore_view, name="explore"),
     path("<str:username>/", profile_view, name="profile"),
     path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),

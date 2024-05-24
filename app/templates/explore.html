@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}
+<title>CheckYoShelf | Explore</title>
+{% endblock title %}{% block content %}
+<div class="explore-books">
+  <ul>
+    {% for genre, books in books_by_genres.items %}
+    <li>
+      <div class="genre-link">
+        <h3>{{genre}}</h3>
+      </div>
+      {% for book in books %}
+      <div class="book-covers">
+        <img src="{{book.cover}}" alt="{{book.title}}" />
+      </div>
+      {% endfor %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}
