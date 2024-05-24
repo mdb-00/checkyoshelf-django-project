@@ -180,7 +180,7 @@ def books_view(request, username, bookshelf):
         shelf_books = shelf.books.all()
         bookshelves_count[shelf] = shelf_books.count()
 
-    selected_bookshelf = Bookshelf.objects.get(name=bookshelf)
+    selected_bookshelf = Bookshelf.objects.get(profile=profile, name=bookshelf)
     books = selected_bookshelf.books.all()
     books_ratings = {}
 
