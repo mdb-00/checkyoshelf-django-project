@@ -292,7 +292,9 @@ def make_post(request, username):
 
 @login_required(login_url="login")
 def delete_bookshelf(request, username, shelf):
-    bookshelf = Bookshelf.objects.get(name=shelf)
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+    bookshelf = Bookshelf.objects.get(profile=my_profile, name=shelf)
     bookshelf.delete()
     return redirect(f"/{username}/bookshelves")
 
