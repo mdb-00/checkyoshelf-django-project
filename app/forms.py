@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -21,6 +21,16 @@ class BookshelfForm(ModelForm):
     class Meta:
         model = Bookshelf
         fields = "__all__"
+        # widgets = {
+        #     "profile": Textarea(attrs={"rows": 5}),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("profile", None)
+        super(BookshelfForm, self).__init__(*args, **kwargs)
+        my_profile = Profile.objects.filter(user=user)
+        print("checking if this prints")
+        self.fields["profile"].queryset = my_profile
 
 
 class ReviewForm(ModelForm):

@@ -187,9 +187,8 @@ def books_view(request, username, bookshelf):
 
 @login_required(login_url="login")
 def create_bookshelf(request, username):
+    form = BookshelfForm(profile=request.user.profile)
     context = {}
-
-    form = BookshelfForm()
 
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
@@ -202,7 +201,7 @@ def create_bookshelf(request, username):
         profile = None
 
     if request.method == "POST":
-        form = BookshelfForm(request.POST)
+        form = BookshelfForm(request.POST, profile=current_user)
         if form.is_valid():
             form.save()
             return redirect(f"/{username}/bookshelves")
@@ -279,6 +278,8 @@ def delete_bookshelf(request, username, shelf):
     return redirect(f"/{username}/bookshelves")
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admin"])
 def add_author(request):
     form = AuthorForm
 
@@ -292,6 +293,8 @@ def add_author(request):
     return render(request, "author_form.html", context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admin"])
 def add_books(request):
     form = BookForm
 
