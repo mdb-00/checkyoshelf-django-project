@@ -2,15 +2,38 @@
 <title>CheckYoShelf | Explore</title>
 {% endblock title %}{% block content %}
 <div class="explore-books">
-  <ul>
+  <ul class="book-list">
     {% for genre, books in books_by_genres.items %}
-    <li>
+    <li class="genre-items">
       <div class="genre-link">
         <h3>{{genre}}</h3>
       </div>
       {% for book in books %}
-      <div class="book-covers">
+      <div class="book-details">
         <img src="{{book.cover}}" alt="{{book.title}}" />
+        <div class="hidden-details">
+          <ul>
+            <li>
+              <p id="book-title">{{book.title}}</p>
+            </li>
+            <li>
+              <p id="book-author">by {{book.author}}</p>
+            </li>
+            <li>
+              <p id="book-synopsis">{{book.synopsis}}</p>
+            </li>
+            <li>
+              <div class="shelf-btn">
+                <div class="shelf-name">
+                  <p>Want to Read</p>
+                </div>
+                <div class="btn">
+                  <a href="">V</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
       {% endfor %}
     </li>
