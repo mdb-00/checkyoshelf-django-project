@@ -9,10 +9,19 @@
   </div>
   {% endif %}
   <ul>
-    {% for shelf, count in bookshelves_count.items %}
+    {% for shelf, count in default_bookshelves_count.items %}
     <li>
       <a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }}) 
+    </li>
+    {% endfor %}
+  </ul>
+  <ul>
+    {% for shelf, count in created_bookshelves_count.items %}
+    <li>
+      <a href="{% url "books" profile.user shelf %}">{{ shelf }}</a> ({{ count }})
+      {% if user == current_user %}
       <a href="{% url "delete_bookshelf" profile.user shelf %}">Delete</a>
+      {% endif %}
     </li>
     {% endfor %}
   </ul>

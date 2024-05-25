@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body>
+    <div class="user-management">
+        <h3>User Management</h3>
+        <div class="user-profiles">
+            <ul>
+            {% for user, profile in user_profiles.items %}
+                <li>
+                    <p>{{user}}</p>
+                    <p>{{profile}}</p>
+                    <div class="ban-btn">
+                        <a href="{% url "delete_user" user %}">Ban</a>
+                    </div>    
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        
+        </div>
+</body>
+</html>

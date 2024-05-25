@@ -20,7 +20,7 @@ class CreateProfileForm(ModelForm):
 class BookshelfForm(ModelForm):
     class Meta:
         model = Bookshelf
-        fields = "__all__"
+        fields = ["profile", "name"]
         # widgets = {
         #     "profile": Textarea(attrs={"rows": 5}),
         # }

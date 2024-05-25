@@ -22,7 +22,7 @@ from app.views import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path("", root, name="root"),
-    path("", home_view, name="home"),
+    # path("", home_view, name="home"),
     path("register/", register_view, name="register"),
     path("create-profile/", create_profile, name="create_profile"),
     path("edit-profile/", edit_profile, name="edit_profile"),
@@ -30,7 +30,17 @@ urlpatterns = [
     path("logout/", logout_user, name="logout"),
     path("add-author/", add_author, name="add_author"),
     path("add-book/", add_books, name="add_book"),
-    path("explore/", explore_view, name="explore"),
+    path("user-management/", user_view, name="user_management"),
+    path("delete/<str:username>/", delete_user, name="delete_user"),
+    path("", explore_view, name="home"),
+    path(
+        "<str:book>/<str:shelf>remove-book/",
+        remove_book_from_shelf,
+        name="remove_book_from_shelf",
+    ),
+    path(
+        "<str:book>/<str:shelf>add-book/", add_book_to_shelf, name="add_book_to_shelf"
+    ),
     path("<str:username>/", profile_view, name="profile"),
     path("<str:username>/bookshelves", bookshelf_view, name="bookshelves"),
     path("<str:username>/<str:bookshelf>/books", books_view, name="books"),

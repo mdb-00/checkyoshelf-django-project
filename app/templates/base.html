@@ -25,14 +25,14 @@
           </div>
         </div>
         <ul>
+          {% comment %} <li><a href="{% url "home" %}">Home</a></li> {% endcomment %}
           <li><a href="{% url "home" %}">Home</a></li>
-          <li><a href="{% url "explore" %}">Explore</a></li>
           <li><a href="{% url "profile" current_user %}">Profile</a></li>
           <li><a href="{% url "bookshelves" current_user %}">My Books</a></li>
         </ul>
         <div class="btn-container">
           <div class="btn">
-            <a href="{% url "make_post" current_user %}">Update</a>
+            <a href="">Update</a>
           </div>
         </div>
       </div>

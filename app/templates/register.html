@@ -1,26 +1,29 @@
-<form action="" method="POST">
-  {% csrf_token %}
-  <div class="registration-from">
-    <div class="username-field">
-      {{form.username.label}}
-      {{form.username}}
+<div class="registration-view">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="registration-from">
+      <div class="username-field">
+        {{form.username.label}}
+        {{form.username}}
+      </div>
+      <div class="email-field">
+        {{form.email.label}}
+        {{form.email}}
+      </div>
+      <div class="password1-field">
+        {{form.password1.label}}
+        {{form.password1}}
+      </div>
+      <div class="password2-field">
+        {{form.password2.label}}
+        {{form.password2}}
+      </div>
+      <input type="submit" name="Submit">
+      <div>
+        Already have an account?
+      <a href="{% url "login" %}">Login</a>
+      </div>
     </div>
-    <div class="email-field">
-      {{form.email.label}}
-      {{form.email}}
-    </div>
-    <div class="password1-field">
-      {{form.password1.label}}
-      {{form.password1}}
-    </div>
-    <div class="password2-field">
-      {{form.password2.label}}
-      {{form.password2}}
-    </div>
-    <input type="submit" name="Submit">
-    <div>
-      Already have an account?
-    <a href="{% url "login" %}">Login</a>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
+

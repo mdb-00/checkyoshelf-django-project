@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import *
 from .forms import *
 from .decorators import *
@@ -8,16 +9,20 @@ from .decorators import *
 
 # Create your views here.
 def default_bookshelves():
-    shelf_names = ["All", "Read", "Currently Reading", "Want to Read"]
+    # shelf_names = ["All", "Read", "Currently Reading", "Want to Read"]
     profiles = Profile.objects.all()
-    bookshelves = []
+    # bookshelves = []
 
     for profile in profiles:
-        for name in shelf_names:
-            shelf_exists = Bookshelf.objects.filter(profile=profile, name=name).exists()
-            if shelf_exists == False:
-                bookshelf = Bookshelf.objects.create(profile=profile, name=name)
-                bookshelves.append(bookshelf)
+        shelf_exists = Bookshelf.objects.filter(profile=profile, name="All").exists()
+        if shelf_exists == False:
+            Bookshelf.objects.create(profile=profile, name="All")
+
+        # for name in shelf_names:
+        #     shelf_exists = Bookshelf.objects.filter(profile=profile, name=name).exists()
+        #     if shelf_exists == False:
+        #         bookshelf = Bookshelf.objects.create(profile=profile, name=name)
+        #         bookshelves.append(bookshelf)
 
 
 @unauthenticated_user
@@ -83,18 +88,26 @@ def home_view(request):
 def explore_view(request):
     context = {}
 
+    default_bookshelves()
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
     genres = Genre.objects.all()
+
+    created_bookshelves = Bookshelf.objects.filter(profile=my_profile).exclude(
+        name="All"
+    )
+
     books_by_genres = {}
 
     for genre in genres:
         books = Book.objects.filter(genre=genre)
-        books_by_genres[genre] = books
+        for book in books:
+            books_by_genres[genre] = books
 
     context["current_user"] = current_user
     context["my_profile"] = my_profile
     context["books_by_genres"] = books_by_genres
+    context["created_bookshelves"] = created_bookshelves
     return render(request, "explore.html", context)
 
 
@@ -109,7 +122,7 @@ def profile_view(request, username):
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         posts = Post.objects.filter(profile=profile)
-        bookshelf = Bookshelf.objects.get(profile=profile, name="Read")
+        bookshelf = Bookshelf.objects.get(profile=profile, name="All")
         read_books = bookshelf.books.all()
         books_read = read_books.count()
         follower_count = len(profile.followers)
@@ -127,9 +140,9 @@ def profile_view(request, username):
     result = ""
 
     if books_read == 1:
-        result = f"{books_read} book read"
+        result = f"{books_read} book"
     else:
-        result = f"{books_read} books read"
+        result = f"{books_read} books"
 
     context["current_user"] = current_user
     context["my_profile"] = my_profile
@@ -156,12 +169,29 @@ def bookshelf_view(request, username):
         user = None
         profile = None
 
-    bookshelves = Bookshelf.objects.filter(profile=profile)
-    bookshelves_count = {}
+    default_bookshelves = Bookshelf.objects.filter(profile=profile).filter(
+        Q(name="All")
+        # | Q(name="Read")
+        # | Q(name="Currently Reading")
+        # | Q(name="Want to Read")
+    )
 
-    for shelf in bookshelves:
+    created_bookshelves = Bookshelf.objects.filter(profile=profile).exclude(
+        Q(name="All")
+        # | Q(name="Read")
+        # | Q(name="Currently Reading")
+        # | Q(name="Want to Read")
+    )
+    default_bookshelves_count = {}
+    created_bookshelves_count = {}
+
+    for shelf in default_bookshelves:
         shelf_books = shelf.books.all()
-        bookshelves_count[shelf] = shelf_books.count()
+        default_bookshelves_count[shelf] = shelf_books.count()
+
+    for shelf in created_bookshelves:
+        shelf_books = shelf.books.all()
+        created_bookshelves_count[shelf] = shelf_books.count()
 
     # bookshelves_count = {
     #     key: value for key, value in sorted(unsorted_bookshelves.items())
@@ -175,8 +205,43 @@ def bookshelf_view(request, username):
     context["my_profile"] = my_profile
     context["user"] = user
     context["profile"] = profile
-    context["bookshelves_count"] = bookshelves_count
+    context["default_bookshelves_count"] = default_bookshelves_count
+    context["created_bookshelves_count"] = created_bookshelves_count
     return render(request, "bookshelves.html", context)
+
+
+def remove_book_from_shelf(request, book, shelf):
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
+    bookshelf = Bookshelf.objects.get(name=shelf, profile=my_profile)
+    all_bookshelf = Bookshelf.objects.get(name="All", profile=my_profile)
+    book_obj = Book.objects.get(title=book)
+    book_obj.status = shelf
+    book_obj.save()
+    bookshelf.books.remove(book_obj)
+    all_bookshelf.books.remove(book_obj)
+
+    bookshelf.save()
+    all_bookshelf.save()
+    return redirect(f"/{current_user}/bookshelves")
+
+
+def add_book_to_shelf(request, book, shelf):
+    current_user = request.user
+    my_profile = Profile.objects.get(user=current_user)
+
+    bookshelf = Bookshelf.objects.get(name=shelf, profile=my_profile)
+    all_bookshelf = Bookshelf.objects.get(name="All", profile=my_profile)
+    book_obj = Book.objects.get(title=book)
+    book_obj.status = shelf
+    book_obj.save()
+    bookshelf.books.add(book_obj)
+    all_bookshelf.books.add(book_obj)
+
+    bookshelf.save()
+    all_bookshelf.save()
+    return redirect(f"/{current_user}/{shelf}/books")
 
 
 @login_required(login_url="login")
@@ -204,6 +269,22 @@ def books_view(request, username, bookshelf):
     books = selected_bookshelf.books.all()
     books_ratings = {}
 
+    default_bookshelves = Bookshelf.objects.filter(profile=profile).filter(
+        Q(name="All")
+        # | Q(name="Read")
+        # | Q(name="Currently Reading")
+        # | Q(name="Want to Read")
+    )
+
+    created_bookshelves = Bookshelf.objects.filter(profile=profile).exclude(
+        Q(name="All")
+        # | Q(name="Read")
+        # | Q(name="Currently Reading")
+        # | Q(name="Want to Read")
+    )
+    default_bookshelves_count = {}
+    created_bookshelves_count = {}
+
     for book in books:
         try:
             review = Review.objects.get(book=book)
@@ -215,8 +296,11 @@ def books_view(request, username, bookshelf):
     context["current_user"] = current_user
     context["my_profile"] = my_profile
     context["profile"] = profile
+    context["selected_bookshelf"] = selected_bookshelf
     context["bookshelves_count"] = bookshelves_count
     context["books_ratings"] = books_ratings
+    context["default_bookshelves_count"] = default_bookshelves_count
+    context["created_bookshelves_count"] = created_bookshelves_count
     return render(request, "books.html", context)
 
 
@@ -228,9 +312,6 @@ def create_bookshelf(request, username):
     my_profile = Profile.objects.get(user=current_user)
 
     form = BookshelfForm(profile=current_user)
-
-    # field = form.fields['profile']
-    # field.widget = field.hidden_widget()
 
     try:
         user = User.objects.get(username=username)
@@ -315,6 +396,16 @@ def delete_bookshelf(request, username, shelf):
     current_user = request.user
     my_profile = Profile.objects.get(user=current_user)
     bookshelf = Bookshelf.objects.get(profile=my_profile, name=shelf)
+    all_bookshelf = Bookshelf.objects.get(profile=my_profile, name="All")
+    books = bookshelf.books.all()
+
+    for book in books:
+        book_obj = Book.objects.get(title=book)
+        bookshelf.books.remove(book_obj)
+        all_bookshelf.books.remove(book_obj)
+        bookshelf.save()
+        all_bookshelf.save()
+
     bookshelf.delete()
     return redirect(f"/{username}/bookshelves")
 
@@ -363,3 +454,22 @@ def edit_profile(request):
 
     context = {"form": form}
     return render(request, "profile_form.html", context)
+
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admin"])
+def user_view(request):
+    users = User.objects.exclude(username=request.user)
+    user_profiles = {}
+
+    for user in users:
+        user_profiles[user] = Profile.objects.get(user=user)
+
+    context = {"user_profiles": user_profiles}
+    return render(request, "user_management.html", context)
+
+
+def delete_user(request, username):
+    user = User.objects.get(username=username)
+    user.delete()
+    return redirect("user_management")

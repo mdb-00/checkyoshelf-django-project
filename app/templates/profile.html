@@ -10,9 +10,9 @@
       <p>{{ result }}</p>
     </div>
   </div>
-  <div class="corner-search-bar">
+  {% comment %} <div class="corner-search-bar">
     <input type="text" placeholder="Search..." />
-  </div>
+  </div> {% endcomment %}
 </div>
 <div class="profile-card">
   <div class="photos">
@@ -55,7 +55,7 @@
     </ul>
   </div>
 </div>
-<div class="profile-content">
+{% comment %} <div class="profile-content">
   <div class="post">
     {% for post in posts %}
     <div class="profile-info">
@@ -65,5 +65,5 @@
     <p>{{ post.text }}</p>
     {% endfor %}
   </div>
-</div>
+</div> {% endcomment %}
 {% endblock content %}

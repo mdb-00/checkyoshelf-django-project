@@ -30,14 +30,21 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
+    # STATUS = (
+    #     ("-", "-"),
+    #     ("Read", "Read"),
+    #     ("Currently Reading", "Currently Reading"),
+    #     ("Want to Read", "Want to Read"),
+    # )
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    profile = models.ManyToManyField(Profile, blank=True)
+    # profile = models.ManyToManyField(Profile, blank=True)
     title = models.CharField(max_length=200)
     genre = models.ManyToManyField(Genre)
     synopsis = models.TextField()
     cover = models.CharField(max_length=200, null=True, blank=True)
     page_number = models.IntegerField()
     publish_date = models.DateField()
+    # status = models.CharField(max_length=200, choices=STATUS, default="-")
     reviewers = []
     average_rating = 0.0
 

@@ -19,17 +19,22 @@
             <li>
               <p id="book-author">by {{book.author}}</p>
             </li>
+            {% comment %}
             <li>
               <p id="book-synopsis">{{book.synopsis}}</p>
             </li>
+            {% endcomment %}
+            <li></li>
+            <li>Where do you want this book?</li>
             <li>
-              <div class="shelf-btn">
-                <div class="shelf-name">
-                  <p>Want to Read</p>
-                </div>
-                <div class="btn">
-                  <a href="">V</a>
-                </div>
+              <div class="shelf-btns">
+                <ul>
+                  {% for shelf in created_bookshelves %}
+                  <li>
+                    <a href="{% url "add_book_to_shelf" book shelf %}">{{shelf}}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
               </div>
             </li>
           </ul>

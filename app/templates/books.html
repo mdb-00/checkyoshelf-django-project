@@ -1,9 +1,17 @@
 {% extends "bookshelves.html" %} {% block books %}
-<div>
-  <ul>
-    {% for book, ratings in books_ratings.items %}
-      <li>{{ book }} <a href="{% url "review_book" profile.user book %}">Rate</a> {{ ratings }}</li>
-    {% endfor %}
-  </ul>
-</div>
+<h3>{{selected_bookshelf}} Books</h3>
+<ul class="books">
+  {% for book, ratings in books_ratings.items %}
+  <li>
+    <img src="{{book.cover}}" alt="" />
+    <p>{{book.title}}</p>
+    <p>{{book.author}}</p>
+    {% if selected_bookshelf.name != "All" %}
+    <div class="remove-btn">
+      <a href="{% url "remove_book_from_shelf" book selected_bookshelf%}">Remove from shelf</a>
+    </div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
 {% endblock books %}
